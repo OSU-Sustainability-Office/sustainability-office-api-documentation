@@ -1,6 +1,8 @@
 <h1 id='carbon-calculator'>Carbon Calculator</h1>
 <p>The base URL for the Carbon Calculator&#39;s API is <a href="https://api.sustainability.oregonstate.edu/v2/carbon">https://api.sustainability.oregonstate.edu/v2/carbon</a>. The following routes can be accessed by appending the endpoint to the base URL (ie: <a href="https://https//api.sustainability.oregonstate.edu/v2/carbon/category...">https://https://api.sustainability.oregonstate.edu/v2/carbon/category...</a></p>
 <h2 id='category'>/category</h2>
+<p>This endpoint is used for performing CRUD operations on one or more categories.</p>
+<h3 id='get'>GET</h3>
 <blockquote>
 <p>GET</p>
 </blockquote>
@@ -20,8 +22,6 @@ curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/cate
   <span class="p">]</span>
 <span class="p">}</span>
 </code></pre>
-<p>This endpoint is used for performing CRUD operations on one or more categories.</p>
-<h3 id='get'>GET</h3>
 <p>This method is used to retrieve one or more categories.</p>
 
 <table><thead>
@@ -108,7 +108,161 @@ curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/c
 </tbody></table>
 <h2 id='question'>/question</h2>
 <p>This endpoint is used for performing CRUD operations on one or more questions.</p>
-<h3 id='get-2'>GET</h3><h3 id='post-2'>POST</h3><h3 id='delete-2'>DELETE</h3><h2 id='data'>/data</h2>
+<h3 id='get-2'>GET</h3>
+<blockquote>
+<p>GET</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># Request all categories</span>
+curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question"</span>
+</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Request a specific question</span>
+curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question?ID=1"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
+<span class="p">{</span>
+  <span class="s2">"questions"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="s2">"questionText"</span><span class="p">:</span> <span class="s2">"How many miles do you drive each day?"</span><span class="p">,</span>
+      <span class="s2">"metaData"</span><span class="p">:</span> <span class="s2">"This question is not real."</span><span class="p">,</span>
+      <span class="s2">"input"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Numerical"</span><span class="p">,</span>
+        <span class="s2">"hint"</span><span class="p">:</span> <span class="s2">"Try answering the question."</span><span class="p">,</span>
+        <span class="s2">"value"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">"unit"</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s2">"prefix"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="s2">"chars"</span><span class="p">:</span> <span class="s2">"mi"</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="s2">"trigger"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"triggerValue"</span><span class="p">:</span> <span class="s2">"someValue"</span><span class="p">,</span>
+        <span class="s2">"parentQuestion"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"visible"</span><span class="p">:</span> <span class="kc">false</span>
+      <span class="p">},</span>
+      <span class="s2">"categoryID"</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<p>This method is used to retrieve one or more questions.</p>
+
+<table><thead>
+<tr>
+<th>URL Parameters</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>The ID of the requested question. When this is specified, only one question is returned.</td>
+</tr>
+<tr>
+<td>categoryID</td>
+<td>When this is specified, all of the questions belonging to a particular category are returned.</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+You must use either ID or categoryID. They are mutually exclusive, and one is always required.
+</aside>
+<h3 id='post-2'>POST</h3>
+<blockquote>
+<p>POST</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># Create a new question</span>
+curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question"</span> <span class="se">\</span>
+-H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+-H <span class="s2">"Cookie: token=(put authentication token here)"</span> -d <span class="se">\</span>
+<span class="s1">'{
+  "questionText": "How many miles do you drive each day?",
+  "metaData": "This question is not real.",
+  "input": {
+    "type": "Numerical",
+    "hint": "Try answering the question.",
+    "value": 0,
+    "unit": {
+      "prefix": false,
+      "chars": "mi"
+    }
+  },
+  "trigger": {
+    "triggerValue": "someValue",
+    "parentQuestion": 3,
+    "visible": false
+  },
+  "categoryID": 0
+}'</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
+<span class="p">{</span>
+  <span class="s2">"questions"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">999</span><span class="p">,</span>
+      <span class="s2">"questionText"</span><span class="p">:</span> <span class="s2">"How many miles do you drive each day?"</span><span class="p">,</span>
+      <span class="s2">"metaData"</span><span class="p">:</span> <span class="s2">"This question is not real."</span><span class="p">,</span>
+      <span class="s2">"input"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Numerical"</span><span class="p">,</span>
+        <span class="s2">"hint"</span><span class="p">:</span> <span class="s2">"Try answering the question."</span><span class="p">,</span>
+        <span class="s2">"value"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">"unit"</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s2">"prefix"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="s2">"chars"</span><span class="p">:</span> <span class="s2">"mi"</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="s2">"trigger"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"triggerValue"</span><span class="p">:</span> <span class="s2">"someValue"</span><span class="p">,</span>
+        <span class="s2">"parentQuestion"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"visible"</span><span class="p">:</span> <span class="kc">false</span>
+      <span class="p">},</span>
+      <span class="s2">"categoryID"</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<p>This method is used to create a new question and is reserved for administrators. Administrators must include an authentication token with each request.</p>
+
+<table><thead>
+<tr>
+<th>JSON Parameters</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>color</td>
+<td>The six-character hexidecimal string corresponding to the new question&#39;s color.</td>
+</tr>
+<tr>
+<td>title</td>
+<td>The question&#39;s title.</td>
+</tr>
+<tr>
+<td>ignoreResults</td>
+<td>A boolean value that is <code>true</code> if this question should not be included in the results calculations. <code>false</code> otherwise.</td>
+</tr>
+</tbody></table>
+<h3 id='delete-2'>DELETE</h3>
+<blockquote>
+<p>DELETE</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># Delete a question by ID</span>
+curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question?ID=1"</span> <span class="se">\</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
+<span class="p">{</span>
+  <span class="s2">"status"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+  <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Question deleted."</span>
+<span class="p">}</span>
+</code></pre>
+<p>This method is used to create a new question and is reserved for administrators. Administrators must include an authentication token with each request.</p>
+
+<table><thead>
+<tr>
+<th>URL Parameters</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>The ID of the question to be deleted.</td>
+</tr>
+</tbody></table>
+<h2 id='data'>/data</h2>
 <p>This endpoint is used for retrieving and deleting a user&#39;s historical data.</p>
 <h3 id='get-3'>GET</h3><h3 id='post-3'>POST</h3><h3 id='delete-3'>DELETE</h3><h2 id='error-codes'>Error Codes</h2>
 <table><thead>
