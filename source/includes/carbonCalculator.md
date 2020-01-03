@@ -1,11 +1,50 @@
-# Errors
+# Carbon Calculator
 
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
+The base URL for the Carbon Calculator's API is [https://api.sustainability.oregonstate.edu/v2/carbon](https://api.sustainability.oregonstate.edu/v2/carbon). The following routes can be accessed by appending the endpoint to the base URL (ie: [https://https://api.sustainability.oregonstate.edu/v2/carbon/category...](https://https://api.sustainability.oregonstate.edu/v2/carbon/category...)
 
-The Kittn API uses the following error codes:
+## /category
+This endpoint is used for performing CRUD operations on one or more categories.
 
+### GET
+This endpoint is used to retrieve one or more categories.
+
+URL Parameters | Description
+---------- | -------
+ID (Optional) | The ID of the requested category. When this is specified, only one category is returned.
+
+```shell
+# Request all categories
+curl "https://api.sustainability.oregonstate.edu/v2/carbon/category"
+```
+
+```shell
+# Request a specific category
+curl "https://api.sustainability.oregonstate.edu/v2/carbon/category"
+```
+
+### POST
+
+### DELETE
+
+## /question
+This endpoint is used for performing CRUD operations on one or more questions.
+
+### GET
+
+### POST
+
+### DELETE
+
+## /data
+This endpoint is used for retrieving and deleting a user's historical data.
+
+### GET
+
+### POST
+
+### DELETE
+
+## Error Codes
 
 Error Code | Meaning
 ---------- | -------

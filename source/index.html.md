@@ -24,3 +24,8 @@ This document aims to provide you with public access to the APIs built by the OS
 * [Energy Dashboard](https://dashboard.sustainability.oregonstate.edu/)
 * [Carbon Calculator](https://myco2.sustainability.oregonstate.edu/)
 * Sustainability Map (Coming Soon!)
+
+```shell
+# API Base URL
+curl "https://api.sustainability.oregonstate.edu/v2/"
+```
