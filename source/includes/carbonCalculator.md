@@ -4,6 +4,9 @@ The base URL for the Carbon Calculator's API is [https://api.sustainability.oreg
 
 ## /category
 
+This endpoint is used for performing CRUD operations on one or more categories.
+
+### GET
 > GET
 
 ```shell
@@ -29,10 +32,6 @@ curl "https://api.sustainability.oregonstate.edu/v2/carbon/category?ID=1"
   ]
 }
 ```
-
-This endpoint is used for performing CRUD operations on one or more categories.
-
-### GET
 
 This method is used to retrieve one or more categories.
 
@@ -100,13 +99,147 @@ URL Parameters | Description
 ID | The ID of the category to be deleted.
 
 ## /question
+
 This endpoint is used for performing CRUD operations on one or more questions.
 
 ### GET
+> GET
+
+```shell
+# Request all categories
+curl "https://api.sustainability.oregonstate.edu/v2/carbon/question"
+```
+
+```shell
+# Request a specific question
+curl "https://api.sustainability.oregonstate.edu/v2/carbon/question?ID=1"
+```
+
+```javascript
+// Response
+{
+  "questions": [
+    {
+      "id": 0,
+      "questionText": "How many miles do you drive each day?",
+      "metaData": "This question is not real.",
+      "input": {
+        "type": "Numerical",
+        "hint": "Try answering the question.",
+        "value": 0,
+        "unit": {
+          "prefix": false,
+          "chars": "mi"
+        }
+      },
+      "trigger": {
+        "triggerValue": "someValue",
+        "parentQuestion": 3,
+        "visible": false
+      },
+      "categoryID": 0
+    }
+  ]
+}
+```
+
+This method is used to retrieve one or more questions.
+
+URL Parameters | Description
+---------- | -------
+ID | The ID of the requested question. When this is specified, only one question is returned.
+categoryID | When this is specified, all of the questions belonging to a particular category are returned.
+
+<aside class="notice">
+You must use either ID or categoryID. They are mutually exclusive, and one is always required.
+</aside>
 
 ### POST
+> POST
+
+```shell
+# Create a new question
+curl -X POST "https://api.sustainability.oregonstate.edu/v2/carbon/question" \
+-H "Content-Type: application/json" \
+-H "Cookie: token=(put authentication token here)" -d \
+'{
+  "questionText": "How many miles do you drive each day?",
+  "metaData": "This question is not real.",
+  "input": {
+    "type": "Numerical",
+    "hint": "Try answering the question.",
+    "value": 0,
+    "unit": {
+      "prefix": false,
+      "chars": "mi"
+    }
+  },
+  "trigger": {
+    "triggerValue": "someValue",
+    "parentQuestion": 3,
+    "visible": false
+  },
+  "categoryID": 0
+}'
+```
+
+```javascript
+// Response
+{
+  "questions": [
+    {
+      "id": 999,
+      "questionText": "How many miles do you drive each day?",
+      "metaData": "This question is not real.",
+      "input": {
+        "type": "Numerical",
+        "hint": "Try answering the question.",
+        "value": 0,
+        "unit": {
+          "prefix": false,
+          "chars": "mi"
+        }
+      },
+      "trigger": {
+        "triggerValue": "someValue",
+        "parentQuestion": 3,
+        "visible": false
+      },
+      "categoryID": 0
+    }
+  ]
+}
+```
+
+This method is used to create a new question and is reserved for administrators. Administrators must include an authentication token with each request.
+
+JSON Parameters | Description
+---------- | -------
+color | The six-character hexidecimal string corresponding to the new question's color.
+title | The question's title.
+ignoreResults | A boolean value that is `true` if this question should not be included in the results calculations. `false` otherwise.
 
 ### DELETE
+> DELETE
+
+```shell
+# Delete a question by ID
+curl -X DELETE "https://api.sustainability.oregonstate.edu/v2/carbon/question?ID=1" \
+```
+
+```javascript
+// Response
+{
+  "status": 200,
+  "message": "Question deleted."
+}
+```
+
+This method is used to create a new question and is reserved for administrators. Administrators must include an authentication token with each request.
+
+URL Parameters | Description
+---------- | -------
+ID | The ID of the question to be deleted.
 
 ## /data
 This endpoint is used for retrieving and deleting a user's historical data.
