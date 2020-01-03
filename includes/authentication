@@ -1,0 +1,17 @@
+<h1 id='authentication'>Authentication</h1>
+<p>The authentication API allows our applications to authenticate users with CAS, using their ONID credentials. For more information about CAS at Oregon State University, refer to <a href="http://onid.oregonstate.edu/docs/technical/cas.shtml">this document</a>.</p>
+<h2 id='login'>Login</h2>
+<p>Users must navigate to <a href="https://api.sustainability.oregonstate.edu/v2/auth/login">https://api.sustainability.oregonstate.edu/v2/auth/login</a> to begin the authentication process. Optionally, a return URI can be specified: <a href="https://api.sustainability.oregonstate.edu/v2/auth/login?returnURI=https://myco2.sustainability.oregonstate.edu/#/">https://api.sustainability.oregonstate.edu/v2/auth/login?returnURI=https://myco2.sustainability.oregonstate.edu/#/</a>. The return URI parameter specifies a destination for the user once they have authenticated with ONID.</p>
+
+<p>A typical login looks like this:</p>
+
+<ol>
+<li>The user navigates to the Carbon Calculator homepage at <a href="https://myco2.sustainability.oregonstate.edu/#/">https://myco2.sustainability.oregonstate.edu/#/</a></li>
+<li>The user clicks the &quot;Sign In&quot; button. Their browser is redirected to <a href="https://api.sustainability.oregonstate.edu/v2/auth/login?returnURI=https://myco2.sustainability.oregonstate.edu/#/">https://api.sustainability.oregonstate.edu/v2/auth/login?returnURI=https://myco2.sustainability.oregonstate.edu/#/</a></li>
+<li>The user successfully authenticates with CAS using ONID and Duo</li>
+<li>The OSU Sustainability Office&#39;s authentication API stores a JSON Web Token (JWT) cookie in the user&#39;s browser</li>
+<li>The user&#39;s browser is redirected to the specified return URI (in this case, it is <a href="https://myco2.sustainability.oregonstate.edu/#/">https://myco2.sustainability.oregonstate.edu/#/</a>)</li>
+<li>Subsequent API calls are made using the JWT.</li>
+</ol>
+<h2 id='logout'>Logout</h2>
+<p>Simply direct the user&#39;s browser to <a href="https://api.sustainability.oregonstate.edu/v2/auth/logout">https://api.sustainability.oregonstate.edu/v2/auth/logout</a>. They will be securely logged out of ONID.</p>

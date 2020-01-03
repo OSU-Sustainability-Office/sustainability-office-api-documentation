@@ -1,0 +1,164 @@
+<h1 id='carbon-calculator'>Carbon Calculator</h1>
+<p>The base URL for the Carbon Calculator&#39;s API is <a href="https://api.sustainability.oregonstate.edu/v2/carbon">https://api.sustainability.oregonstate.edu/v2/carbon</a>. The following routes can be accessed by appending the endpoint to the base URL (ie: <a href="https://https//api.sustainability.oregonstate.edu/v2/carbon/category...">https://https://api.sustainability.oregonstate.edu/v2/carbon/category...</a></p>
+<h2 id='category'>/category</h2>
+<blockquote>
+<p>GET</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># Request all categories</span>
+curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/category"</span>
+</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Request a specific category</span>
+curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/category?ID=1"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
+<span class="p">{</span>
+  <span class="s2">"categories"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"ffffff"</span><span class="p">,</span>
+      <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Introduction"</span><span class="p">,</span>
+      <span class="s2">"IgnoreResults"</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<p>This endpoint is used for performing CRUD operations on one or more categories.</p>
+<h3 id='get'>GET</h3>
+<p>This method is used to retrieve one or more categories.</p>
+
+<table><thead>
+<tr>
+<th>URL Parameters</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID (Optional)</td>
+<td>The ID of the requested category. When this is specified, only one category is returned.</td>
+</tr>
+</tbody></table>
+<h3 id='post'>POST</h3>
+<blockquote>
+<p>POST</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># Create a new category</span>
+curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/category"</span> <span class="se">\</span>
+-H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+-H <span class="s2">"Cookie: token=(put authentication token here)"</span> -d <span class="se">\</span>
+<span class="s1">'{
+  "color": "ffffff",
+  "title": "New Category",
+  "ignoreResults": false
+}'</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
+<span class="p">{</span>
+  <span class="s2">"categories"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+      <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"ffffff"</span><span class="p">,</span>
+      <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"New Category"</span><span class="p">,</span>
+      <span class="s2">"ignoreResults"</span><span class="p">:</span> <span class="kc">false</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<p>This method is used to create a new category and is reserved for administrators. Administrators must include an authentication token with each request.</p>
+
+<table><thead>
+<tr>
+<th>JSON Parameters</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>color</td>
+<td>The six-character hexidecimal string corresponding to the new category&#39;s color.</td>
+</tr>
+<tr>
+<td>title</td>
+<td>The category&#39;s title.</td>
+</tr>
+<tr>
+<td>ignoreResults</td>
+<td>A boolean value that is <code>true</code> if this category should not be included in the results calculations. <code>false</code> otherwise.</td>
+</tr>
+</tbody></table>
+<h3 id='delete'>DELETE</h3>
+<blockquote>
+<p>DELETE</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># Delete a category by ID</span>
+curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/category?ID=1"</span> <span class="se">\</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
+<span class="p">{</span>
+  <span class="s2">"status"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+  <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Category deleted."</span>
+<span class="p">}</span>
+</code></pre>
+<p>This method is used to create a new category and is reserved for administrators. Administrators must include an authentication token with each request.</p>
+
+<table><thead>
+<tr>
+<th>URL Parameters</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>The ID of the category to be deleted.</td>
+</tr>
+</tbody></table>
+<h2 id='question'>/question</h2>
+<p>This endpoint is used for performing CRUD operations on one or more questions.</p>
+<h3 id='get-2'>GET</h3><h3 id='post-2'>POST</h3><h3 id='delete-2'>DELETE</h3><h2 id='data'>/data</h2>
+<p>This endpoint is used for retrieving and deleting a user&#39;s historical data.</p>
+<h3 id='get-3'>GET</h3><h3 id='post-3'>POST</h3><h3 id='delete-3'>DELETE</h3><h2 id='error-codes'>Error Codes</h2>
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request -- Your request is invalid.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized -- Your API key is wrong.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found -- The specified kitten could not be found.</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Gone -- The kitten requested has been removed from our servers.</td>
+</tr>
+<tr>
+<td>418</td>
+<td>I&#39;m a teapot.</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+</tbody></table>
