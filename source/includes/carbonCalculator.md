@@ -82,6 +82,7 @@ ignoreResults | A boolean value that is `true` if this category should not be in
 ```shell
 # Delete a category by ID
 curl -X DELETE "https://api.sustainability.oregonstate.edu/v2/carbon/category?ID=1" \
+-H "Cookie: token=(put authentication token here)"
 ```
 
 ```javascript
@@ -225,6 +226,7 @@ ignoreResults | A boolean value that is `true` if this question should not be in
 ```shell
 # Delete a question by ID
 curl -X DELETE "https://api.sustainability.oregonstate.edu/v2/carbon/question?ID=1" \
+-H "Cookie: token=(put authentication token here)"
 ```
 
 ```javascript
@@ -242,15 +244,63 @@ URL Parameters | Description
 ID | The ID of the question to be deleted.
 
 ## /data
-This endpoint is used for retrieving and deleting a user's historical data.
+This endpoint is used for retrieving and deleting a user's historical data. The user must be logged in and an authentication token must be included with every request.
 
 ### GET
+> GET
 
-### POST
+```shell
+# Request all historica data for the current user
+curl "https://api.sustainability.oregonstate.edu/v2/carbon/data"
+```
+
+```javascript
+// Response
+{
+  "data": [
+    {
+      "ID": 1,
+      "created": "YYYY-MM-DD hh:mm:ss", // SQL Datetime format, UTC timezone
+      "totals":[
+        {
+          "categoryID": 1,
+          "total": 1234.56
+        },
+        ...
+      ]
+    },
+    ...
+  ]
+}
+```
+This method retrieves all of the historical datapoints for the current user.
 
 ### DELETE
+> DELETE
+
+```shell
+# Request all historica data for the current user
+curl -X DELETE "https://api.sustainability.oregonstate.edu/v2/carbon/data?ID=1" \
+-H "Cookie: token=(put authentication token here)"
+```
+
+```javascript
+// Response
+{
+  "status": 200,
+  "message": "Data point deleted."
+}
+```
+
+This method deletes the specified historical data point.
+
+URL Parameters | Description
+---------- | -------
+ID | The ID of the historical data point to be deleted. Each data point unique consists of a set of totals for each category and a timestamp.
 
 ## Error Codes
+
+(Incomplete)
 
 Error Code | Meaning
 ---------- | -------
