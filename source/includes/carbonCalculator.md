@@ -3,14 +3,8 @@
 The base URL for the Carbon Calculator's API is [https://api.sustainability.oregonstate.edu/v2/carbon](https://api.sustainability.oregonstate.edu/v2/carbon). The following routes can be accessed by appending the endpoint to the base URL (ie: [https://https://api.sustainability.oregonstate.edu/v2/carbon/category...](https://https://api.sustainability.oregonstate.edu/v2/carbon/category...)
 
 ## /category
-This endpoint is used for performing CRUD operations on one or more categories.
 
-### GET
-This endpoint is used to retrieve one or more categories.
-
-URL Parameters | Description
----------- | -------
-ID (Optional) | The ID of the requested category. When this is specified, only one category is returned.
+> GET
 
 ```shell
 # Request all categories
@@ -19,12 +13,91 @@ curl "https://api.sustainability.oregonstate.edu/v2/carbon/category"
 
 ```shell
 # Request a specific category
-curl "https://api.sustainability.oregonstate.edu/v2/carbon/category"
+curl "https://api.sustainability.oregonstate.edu/v2/carbon/category?ID=1"
 ```
 
+```javascript
+// Response
+{
+  "categories": [
+    {
+      "id": 0,
+      "color": "ffffff",
+      "title": "Introduction",
+      "IgnoreResults": true
+    }
+  ]
+}
+```
+
+This endpoint is used for performing CRUD operations on one or more categories.
+
+### GET
+
+This method is used to retrieve one or more categories.
+
+URL Parameters | Description
+---------- | -------
+ID (Optional) | The ID of the requested category. When this is specified, only one category is returned.
+
 ### POST
+> POST
+
+```shell
+# Create a new category
+curl -X POST "https://api.sustainability.oregonstate.edu/v2/carbon/category" \
+-H "Content-Type: application/json" \
+-H "Cookie: token=(put authentication token here)" -d \
+'{
+  "color": "ffffff",
+  "title": "New Category",
+  "ignoreResults": false
+}'
+```
+
+```javascript
+// Response
+{
+  "categories": [
+    {
+      "id": 9,
+      "color": "ffffff",
+      "title": "New Category",
+      "ignoreResults": false
+    }
+  ]
+}
+```
+
+This method is used to create a new category and is reserved for administrators. Administrators must include an authentication token with each request.
+
+JSON Parameters | Description
+---------- | -------
+color | The six-character hexidecimal string corresponding to the new category's color.
+title | The category's title.
+ignoreResults | A boolean value that is `true` if this category should not be included in the results calculations. `false` otherwise.
 
 ### DELETE
+> DELETE
+
+```shell
+# Delete a category by ID
+curl -X DELETE "https://api.sustainability.oregonstate.edu/v2/carbon/category?ID=1" \
+```
+
+```javascript
+// Response
+{
+  "status": 200,
+  "message": "Category deleted."
+}
+```
+
+This method is used to create a new category and is reserved for administrators. Administrators must include an authentication token with each request.
+
+URL Parameters | Description
+---------- | -------
+ID | The ID of the category to be deleted.
 
 ## /question
 This endpoint is used for performing CRUD operations on one or more questions.
