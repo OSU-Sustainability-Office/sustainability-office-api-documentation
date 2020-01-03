@@ -92,7 +92,7 @@ curl -X DELETE "https://api.sustainability.oregonstate.edu/v2/carbon/category?ID
 }
 ```
 
-This method is used to create a new category and is reserved for administrators. Administrators must include an authentication token with each request.
+This method is used to delete a category and is reserved for administrators. Administrators must include an authentication token with each request.
 
 URL Parameters | Description
 ---------- | -------
@@ -211,7 +211,7 @@ curl -X POST "https://api.sustainability.oregonstate.edu/v2/carbon/question" \
 }
 ```
 
-This method is used to create a new question and is reserved for administrators. Administrators must include an authentication token with each request.
+This method is used to delete a question and is reserved for administrators. Administrators must include an authentication token with each request.
 
 JSON Parameters | Description
 ---------- | -------
