@@ -87,13 +87,14 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># Delete a category by ID</span>
 curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/category?ID=1"</span> <span class="se">\</span>
+-H <span class="s2">"Cookie: token=(put authentication token here)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
 <span class="p">{</span>
   <span class="s2">"status"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
   <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Category deleted."</span>
 <span class="p">}</span>
 </code></pre>
-<p>This method is used to create a new category and is reserved for administrators. Administrators must include an authentication token with each request.</p>
+<p>This method is used to delete a category and is reserved for administrators. Administrators must include an authentication token with each request.</p>
 
 <table><thead>
 <tr>
@@ -216,7 +217,7 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
   <span class="p">]</span>
 <span class="p">}</span>
 </code></pre>
-<p>This method is used to create a new question and is reserved for administrators. Administrators must include an authentication token with each request.</p>
+<p>This method is used to delete a question and is reserved for administrators. Administrators must include an authentication token with each request.</p>
 
 <table><thead>
 <tr>
@@ -243,6 +244,7 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># Delete a question by ID</span>
 curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question?ID=1"</span> <span class="se">\</span>
+-H <span class="s2">"Cookie: token=(put authentication token here)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
 <span class="p">{</span>
   <span class="s2">"status"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
@@ -263,8 +265,61 @@ curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/c
 </tr>
 </tbody></table>
 <h2 id='data'>/data</h2>
-<p>This endpoint is used for retrieving and deleting a user&#39;s historical data.</p>
-<h3 id='get-3'>GET</h3><h3 id='post-3'>POST</h3><h3 id='delete-3'>DELETE</h3><h2 id='error-codes'>Error Codes</h2>
+<p>This endpoint is used for retrieving and deleting a user&#39;s historical data. The user must be logged in and an authentication token must be included with every request.</p>
+<h3 id='get-3'>GET</h3>
+<blockquote>
+<p>GET</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># Request all historica data for the current user</span>
+curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
+<span class="p">{</span>
+  <span class="s2">"data"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"ID"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s2">"created"</span><span class="p">:</span> <span class="s2">"YYYY-MM-DD hh:mm:ss"</span><span class="p">,</span> <span class="c1">// SQL Datetime format, UTC timezone</span>
+      <span class="s2">"totals"</span><span class="p">:[</span>
+        <span class="p">{</span>
+          <span class="s2">"categoryID"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="s2">"total"</span><span class="p">:</span> <span class="mf">1234.56</span>
+        <span class="p">},</span>
+        <span class="p">...</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">...</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<p>This method retrieves all of the historical datapoints for the current user.</p>
+<h3 id='delete-3'>DELETE</h3>
+<blockquote>
+<p>DELETE</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># Request all historica data for the current user</span>
+curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data?ID=1"</span> <span class="se">\</span>
+-H <span class="s2">"Cookie: token=(put authentication token here)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
+<span class="p">{</span>
+  <span class="s2">"status"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+  <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Data point deleted."</span>
+<span class="p">}</span>
+</code></pre>
+<p>This method deletes the specified historical data point.</p>
+
+<table><thead>
+<tr>
+<th>URL Parameters</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>The ID of the historical data point to be deleted. Each data point unique consists of a set of totals for each category and a timestamp.</td>
+</tr>
+</tbody></table>
+<h2 id='error-codes'>Error Codes</h2>
+<p>(Incomplete)</p>
+
 <table><thead>
 <tr>
 <th>Error Code</th>
