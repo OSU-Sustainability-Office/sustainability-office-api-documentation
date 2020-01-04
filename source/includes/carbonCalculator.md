@@ -275,6 +275,47 @@ curl "https://api.sustainability.oregonstate.edu/v2/carbon/data"
 ```
 This method retrieves all of the historical datapoints for the current user.
 
+### POST
+> POST
+
+```shell
+# Request all historica data for the current user
+curl -X POST "https://api.sustainability.oregonstate.edu/v2/carbon/data" \
+-H "Content-Type: application/json" \
+-H "Cookie: token=(put authentication token here)" -d \
+'{
+  "created": "YYYY-MM-DD hh:mm:ss", // SQL Datetime format, UTC timezone
+  "totals":[
+    {
+      "categoryID": 1,
+      "total": 1234.56
+    },
+    ...
+  ]
+}'
+```
+
+```javascript
+// Response
+{
+  "data": [
+    {
+      "ID": 999,
+      "created": "YYYY-MM-DD hh:mm:ss", // SQL Datetime format, UTC timezone
+      "totals":[
+        {
+          "categoryID": 1,
+          "total": 1234.56
+        },
+        ...
+      ]
+    },
+    ...
+  ]
+}
+```
+This method stores a results object as a historical data point.
+
 ### DELETE
 > DELETE
 
