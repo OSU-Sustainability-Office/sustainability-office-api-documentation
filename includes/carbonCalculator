@@ -291,6 +291,43 @@ curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data
 <span class="p">}</span>
 </code></pre>
 <p>This method retrieves all of the historical datapoints for the current user.</p>
+<h3 id='post-3'>POST</h3>
+<blockquote>
+<p>POST</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># Request all historica data for the current user</span>
+curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data"</span> <span class="se">\</span>
+-H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+-H <span class="s2">"Cookie: token=(put authentication token here)"</span> -d <span class="se">\</span>
+<span class="s1">'{
+  "created": "YYYY-MM-DD hh:mm:ss", // SQL Datetime format, UTC timezone
+  "totals":[
+    {
+      "categoryID": 1,
+      "total": 1234.56
+    },
+    ...
+  ]
+}'</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
+<span class="p">{</span>
+  <span class="s2">"data"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"ID"</span><span class="p">:</span> <span class="mi">999</span><span class="p">,</span>
+      <span class="s2">"created"</span><span class="p">:</span> <span class="s2">"YYYY-MM-DD hh:mm:ss"</span><span class="p">,</span> <span class="c1">// SQL Datetime format, UTC timezone</span>
+      <span class="s2">"totals"</span><span class="p">:[</span>
+        <span class="p">{</span>
+          <span class="s2">"categoryID"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="s2">"total"</span><span class="p">:</span> <span class="mf">1234.56</span>
+        <span class="p">},</span>
+        <span class="p">...</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">...</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<p>This method stores a results object as a historical data point.</p>
 <h3 id='delete-3'>DELETE</h3>
 <blockquote>
 <p>DELETE</p>
