@@ -402,8 +402,8 @@ curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/c
 <blockquote>
 <p>GET</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># Request all categories</span>
-curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question"</span>
+<pre class="highlight shell tab-shell"><code><span class="c"># Request all questions for a particular category</span>
+curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question?categoryID=1"</span>
 </code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Request a specific question</span>
 curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question?ID=1"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
@@ -589,7 +589,6 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
 -H <span class="s2">"Cookie: token=(put authentication token here)"</span> -d <span class="se">\</span>
 <span class="s1">'{
-  "created": "YYYY-MM-DD hh:mm:ss", // SQL Datetime format, UTC timezone
   "totals":[
     {
       "categoryID": 1,
@@ -621,7 +620,7 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 <blockquote>
 <p>DELETE</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># Request all historica data for the current user</span>
+<pre class="highlight shell tab-shell"><code><span class="c"># Delete the specified historical data point</span>
 curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data?ID=1"</span> <span class="se">\</span>
 -H <span class="s2">"Cookie: token=(put authentication token here)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
