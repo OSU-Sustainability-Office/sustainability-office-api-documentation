@@ -107,8 +107,8 @@ This endpoint is used for performing CRUD operations on one or more questions.
 > GET
 
 ```shell
-# Request all categories
-curl "https://api.sustainability.oregonstate.edu/v2/carbon/question"
+# Request all questions for a particular category
+curl "https://api.sustainability.oregonstate.edu/v2/carbon/question?categoryID=1"
 ```
 
 ```shell
@@ -284,7 +284,6 @@ curl -X POST "https://api.sustainability.oregonstate.edu/v2/carbon/data" \
 -H "Content-Type: application/json" \
 -H "Cookie: token=(put authentication token here)" -d \
 '{
-  "created": "YYYY-MM-DD hh:mm:ss", // SQL Datetime format, UTC timezone
   "totals":[
     {
       "categoryID": 1,
@@ -320,7 +319,7 @@ This method stores a results object as a historical data point.
 > DELETE
 
 ```shell
-# Request all historica data for the current user
+# Delete the specified historical data point
 curl -X DELETE "https://api.sustainability.oregonstate.edu/v2/carbon/data?ID=1" \
 -H "Cookie: token=(put authentication token here)"
 ```
