@@ -2,12 +2,7 @@
 
 The base URL for the Carbon Calculator's API is [https://api.sustainability.oregonstate.edu/v2/carbon](https://api.sustainability.oregonstate.edu/v2/carbon). The following routes can be accessed by appending the endpoint to the base URL (ie: [https://https://api.sustainability.oregonstate.edu/v2/carbon/category...](https://https://api.sustainability.oregonstate.edu/v2/carbon/category...)
 
-## /category
-
-This endpoint is used for performing CRUD operations on one or more categories.
-
-### GET
-> GET
+## Get Categories
 
 ```shell
 # Request all categories
@@ -19,8 +14,7 @@ curl "https://api.sustainability.oregonstate.edu/v2/carbon/category"
 curl "https://api.sustainability.oregonstate.edu/v2/carbon/category?ID=1"
 ```
 
-```javascript
-// Response
+```json
 {
   "categories": [
     {
@@ -39,8 +33,7 @@ URL Parameters | Description
 ---------- | -------
 ID (Optional) | The ID of the requested category. When this is specified, only one category is returned.
 
-### POST
-> POST
+## Create Categories
 
 ```shell
 # Create a new category
@@ -54,8 +47,7 @@ curl -X POST "https://api.sustainability.oregonstate.edu/v2/carbon/category" \
 }'
 ```
 
-```javascript
-// Response
+```json
 {
   "categories": [
     {
@@ -76,8 +68,7 @@ color | The six-character hexidecimal string corresponding to the new category's
 title | The category's title.
 ignoreResults | A boolean value that is `true` if this category should not be included in the results calculations. `false` otherwise.
 
-### DELETE
-> DELETE
+## Delete Categories
 
 ```shell
 # Delete a category by ID
@@ -85,8 +76,7 @@ curl -X DELETE "https://api.sustainability.oregonstate.edu/v2/carbon/category?ID
 -H "Cookie: token=(put authentication token here)"
 ```
 
-```javascript
-// Response
+```json
 {
   "status": 200,
   "message": "Category deleted."
@@ -99,12 +89,9 @@ URL Parameters | Description
 ---------- | -------
 ID | The ID of the category to be deleted.
 
-## /question
+## Get Questions
 
 This endpoint is used for performing CRUD operations on one or more questions.
-
-### GET
-> GET
 
 ```shell
 # Request all questions for a particular category
@@ -116,30 +103,29 @@ curl "https://api.sustainability.oregonstate.edu/v2/carbon/question?categoryID=1
 curl "https://api.sustainability.oregonstate.edu/v2/carbon/question?ID=1"
 ```
 
-```javascript
-// Response
+```json
 {
   "questions": [
     {
-      "id": 0,
+      "ID": 999,
       "questionText": "How many miles do you drive each day?",
+      "orderIndex": 3,
       "metaData": "This question is not real.",
       "input": {
-        "type": "Numerical",
-        "hint": "Try answering the question.",
-        "value": 0,
-        "unit": {
-          "prefix": false,
-          "chars": "mi"
-        }
+        "type": "numerical",
+        "value": 0, // this is the initial value that appears before the user modifies the input box on the calculator.
+        "coef": 0.533,
+        "unit": "mi",
+        "isPrefix": false
       },
       "trigger": {
-        "triggerValue": "someValue",
-        "parentQuestion": 3,
+        "triggerValue": "Gasoline",
+        "parentQuestion": 2,
         "visible": false
       },
       "categoryID": 0
-    }
+    },
+    ...
   ]
 }
 ```
@@ -155,8 +141,7 @@ categoryID | When this is specified, all of the questions belonging to a particu
 You must use either ID or categoryID. They are mutually exclusive, and one is always required.
 </aside>
 
-### POST
-> POST
+## Create Questions
 
 ```shell
 # Create a new question
@@ -165,45 +150,42 @@ curl -X POST "https://api.sustainability.oregonstate.edu/v2/carbon/question" \
 -H "Cookie: token=(put authentication token here)" -d \
 '{
   "questionText": "How many miles do you drive each day?",
+  "orderIndex": 3,
   "metaData": "This question is not real.",
   "input": {
-    "type": "Numerical",
-    "hint": "Try answering the question.",
-    "value": 0,
-    "unit": {
-      "prefix": false,
-      "chars": "mi"
-    }
+    "type": "numerical",
+    "value": 0, // this is the initial value that appears before the user modifies the input box on the calculator.
+    "coef": 0.533,
+    "unit": "mi",
+    "isPrefix": false
   },
   "trigger": {
-    "triggerValue": "someValue",
-    "parentQuestion": 3,
+    "triggerValue": "Gasoline",
+    "parentQuestion": 2,
     "visible": false
   },
   "categoryID": 0
 }'
 ```
 
-```javascript
-// Response
+```json
 {
   "questions": [
     {
-      "id": 999,
+      "ID": 999,
       "questionText": "How many miles do you drive each day?",
+      "orderIndex": 3,
       "metaData": "This question is not real.",
       "input": {
-        "type": "Numerical",
-        "hint": "Try answering the question.",
-        "value": 0,
-        "unit": {
-          "prefix": false,
-          "chars": "mi"
-        }
+        "type": "numerical",
+        "value": 0, // this is the initial value that appears before the user modifies the input box on the calculator.
+        "coef": 0.533,
+        "unit": "mi",
+        "isPrefix": false
       },
       "trigger": {
-        "triggerValue": "someValue",
-        "parentQuestion": 3,
+        "triggerValue": "Gasoline",
+        "parentQuestion": 2,
         "visible": false
       },
       "categoryID": 0
@@ -216,12 +198,89 @@ This method is used to delete a question and is reserved for administrators. Adm
 
 JSON Parameters | Description
 ---------- | -------
-color | The six-character hexidecimal string corresponding to the new question's color.
-title | The question's title.
-ignoreResults | A boolean value that is `true` if this question should not be included in the results calculations. `false` otherwise.
+questionText | This is the string containing text for the question, such as "How old are you?".
+orderIndex | Each question is displayed in a particular order, beginning with 0. If -1 is supplied, this will be appended to the end of the current list of questions for the specified category. Otherwise, this question will be placed at the specified index. If a question already exists at the specified index, the new question will be inserted into the list at the index.
+metaData | This is displayed when the user hovers the mouse over a tooltip. This contains information regarding any sources used for computing the CO2e coefficient for this question, or any other pertinent information.
+input (optional) | An object describing the type of input that should be rendered for this question.
+trigger (optional) | An object describing whether or not this question's visibility is triggered by the answer to another question. For example, the question: "How many miles do you drive?" may be triggered by the response "Yes" to the question: "Do you drive a car?"
+categoryID | The ID of the category this question will reside within. To look up category IDs, refer to the /category endpoint.
 
-### DELETE
-> DELETE
+### Input Objects
+A question can employ one of four kinds of inputs:
+
+1. No input. This is used when a "question" is really just a paragraph. In this case, assign the input key a null value.
+<pre class="center-column">
+  {
+    "questionText": "Welcome to the calculator.",
+    "orderIndex": -1,
+    "metaData": "This question is actually a paragraph.",
+    "input": null,
+    "trigger": null,
+    "categoryID": 0
+  }
+</pre>
+2. Numerical. This is used when a question computes a carbon footprint using an integer input by the user.
+<pre class="center-column">
+  {
+    "questionText": "How many miles do you drive each day?",
+    "orderIndex": 3,
+    "metaData": "This question is not real.",
+    "input": {
+      "type": "numerical",
+      "value": 0, // this is the initial value that appears before the user modifies the input box on the calculator.
+      "coef": 0.533,
+      "unit": "mi",
+      "isPrefix": false
+    },
+    "trigger": {
+      "triggerValue": "Gasoline",
+      "parentQuestion": 2,
+      "visible": false
+    },
+    "categoryID": 0
+  }
+</pre>
+3. List. This is used when a user must select from one or more predetermined values in a list (or a toggle switch).
+<pre class="center-column">
+  {
+    "questionText": "What kind of car do you drive?",
+    "orderIndex": 2,
+    "metaData": "This question is not real.",
+    "input": {
+      "type": "list",
+      "values": ["Gasoline", "Diesel", "Hybrid", "Electric", "Other"],
+      "coefs": [0.533, 0.421, 0.213, 0.048, 0],
+      "unit": null,
+      "isPrefix": null
+    },
+    "trigger": null,
+    "categoryID": 0
+  }
+</pre>
+4. Table. This is used when a user must input data in a table format.
+<pre class="center-column">
+  {
+    "questionText": "From the following list of appliances, electronics, lighting, etc, input how many of each item are in your room and how many hours a day each item is in use or plugged in. If you own an item not listed below please be sure to fill in extra fields: What is the item and wattage? You can find the wattage on the bottom of most appliances. Be sure to multiply by 1000 if the wattage is given in kilowatts.",
+    "orderIndex": 4,
+    "metaData": "This question is not real.",
+    "input": {
+      "type": "table",
+      "formula": "C1 * C2 * C3 * 0.214",
+      "values": [
+        ["Item", "Quantity", "Watts", "Active Use (Hours/Day)", "Standby Use"],
+        ["Refrigerator", 1, 160, 24, 0],
+        ["Microwave", 1, 1000, 0, 0],
+        ...
+      ]
+    },
+    "trigger": null,
+    "categoryID": 0
+  }
+</pre>
+
+### Trigger Objects
+
+## Delete Questions
 
 ```shell
 # Delete a question by ID
@@ -229,8 +288,7 @@ curl -X DELETE "https://api.sustainability.oregonstate.edu/v2/carbon/question?ID
 -H "Cookie: token=(put authentication token here)"
 ```
 
-```javascript
-// Response
+```json
 {
   "status": 200,
   "message": "Question deleted."
@@ -254,8 +312,7 @@ This endpoint is used for retrieving and deleting a user's historical data. The 
 curl "https://api.sustainability.oregonstate.edu/v2/carbon/data"
 ```
 
-```javascript
-// Response
+```json
 {
   "data": [
     {
@@ -294,8 +351,7 @@ curl -X POST "https://api.sustainability.oregonstate.edu/v2/carbon/data" \
 }'
 ```
 
-```javascript
-// Response
+```json
 {
   "data": [
     {
@@ -324,8 +380,7 @@ curl -X DELETE "https://api.sustainability.oregonstate.edu/v2/carbon/data?ID=1" 
 -H "Cookie: token=(put authentication token here)"
 ```
 
-```javascript
-// Response
+```json
 {
   "status": 200,
   "message": "Data point deleted."
