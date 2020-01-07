@@ -210,72 +210,72 @@ A question can employ one of four kinds of inputs:
 
 1. No input. This is used when a "question" is really just a paragraph. In this case, assign the input key a null value.
 <pre class="center-column">
-  {
-    "questionText": "Welcome to the calculator.",
-    "orderIndex": -1,
-    "metaData": "This question is actually a paragraph.",
-    "input": null,
-    "trigger": null,
-    "categoryID": 0
-  }
+    {
+      "questionText": "Welcome to the calculator.",
+      "orderIndex": -1,
+      "metaData": "This question is actually a paragraph.",
+      "input": null,
+      "trigger": null,
+      "categoryID": 0
+    }
 </pre>
 2. Numerical. This is used when a question computes a carbon footprint using an integer input by the user.
 <pre class="center-column">
-  {
-    "questionText": "How many miles do you drive each day?",
-    "orderIndex": 3,
-    "metaData": "This question is not real.",
-    "input": {
-      "type": "numerical",
-      "value": 0, // this is the initial value that appears before the user modifies the input box on the calculator.
-      "coef": 0.533,
-      "unit": "mi",
-      "isPrefix": false
-    },
-    "trigger": {
-      "triggerValue": "Gasoline",
-      "parentQuestion": 2,
-      "visible": false
-    },
-    "categoryID": 0
-  }
+    {
+      "questionText": "How many miles do you drive each day?",
+      "orderIndex": 3,
+      "metaData": "This question is not real.",
+      "input": {
+        "type": "numerical",
+        "value": 0, // this is the initial value that appears before the user modifies the input box on the calculator.
+        "coef": 0.533,
+        "unit": "mi",
+        "isPrefix": false
+      },
+      "trigger": {
+        "triggerValue": "Gasoline",
+        "parentQuestion": 2,
+        "visible": false
+      },
+      "categoryID": 0
+    }
 </pre>
 3. List. This is used when a user must select from one or more predetermined values in a list (or a toggle switch).
 <pre class="center-column">
-  {
-    "questionText": "What kind of car do you drive?",
-    "orderIndex": 2,
-    "metaData": "This question is not real.",
-    "input": {
-      "type": "list",
-      "values": ["Gasoline", "Diesel", "Hybrid", "Electric", "Other"],
-      "coefs": [0.533, 0.421, 0.213, 0.048, 0],
-      "unit": null,
-      "isPrefix": null
-    },
-    "trigger": null,
-    "categoryID": 0
-  }
+    {
+      "questionText": "What kind of car do you drive?",
+      "orderIndex": 2,
+      "metaData": "This question is not real.",
+      "input": {
+        "type": "list",
+        "values": ["Gasoline", "Diesel", "Hybrid", "Electric", "Other"],
+        "coefs": [0.533, 0.421, 0.213, 0.048, 0],
+        "unit": null,
+        "isPrefix": null
+      },
+      "trigger": null,
+      "categoryID": 0
+    }
 </pre>
 4. Table. This is used when a user must input data in a table format.
 <pre class="center-column">
-  {
-    "questionText": "From the following list of appliances, electronics, lighting, etc, input how many of each item are in your room and how many hours a day each item is in use or plugged in. If you own an item not listed below please be sure to fill in extra fields: What is the item and wattage? You can find the wattage on the bottom of most appliances. Be sure to multiply by 1000 if the wattage is given in kilowatts.",
-    "orderIndex": 4,
-    "metaData": "This question is not real.",
-    "input": {
-      "type": "table",
-      "formula": "C1 * C2 * C3 * 0.214",
-      "values": [
-        ["Item", "Quantity", "Watts", "Active Use (Hours/Day)", "Standby Use"],
-        ["Refrigerator", 1, 160, 24, 0],
-        ["Microwave", 1, 1000, 0, 0],
-        ...
-      ]
-    },
-    "trigger": null,
-    "categoryID": 0
-  }
+    {
+      "questionText": "From the following list of appliances, electronics, lighting, etc, input how many of each item are in your room and how many hours a day each item is in use or plugged in. If you own an item not listed below please be sure to fill in extra fields: What is the item and wattage? You can find the wattage on the bottom of most appliances. Be sure to multiply by 1000 if the wattage is given in kilowatts.",
+      "orderIndex": 4,
+      "metaData": "This question is not real.",
+      "input": {
+        "type": "table",
+        "formula": "C1 * C2 * C3 * 0.214",
+        "values": [
+          ["Item", "Quantity", "Watts", "Active Use (Hours/Day)", "Standby Use"],
+          ["Refrigerator", 1, 160, 24, 0],
+          ["Microwave", 1, 1000, 0, 0],
+          ...
+        ]
+      },
+      "trigger": null,
+      "categoryID": 0
+    }
 </pre>
 
 ### Trigger Objects
@@ -318,12 +318,7 @@ URL Parameters | Description
 ---------- | -------
 ID | The ID of the question to be deleted.
 
-## /data
-This endpoint is used for retrieving and deleting a user's historical data. The user must be logged in and an authentication token must be included with every request.
-
-### GET
-> GET
-
+## Get Historical Data
 ```shell
 # Request all historica data for the current user
 curl "https://api.sustainability.oregonstate.edu/v2/carbon/data"
@@ -349,9 +344,7 @@ curl "https://api.sustainability.oregonstate.edu/v2/carbon/data"
 ```
 This method retrieves all of the historical datapoints for the current user.
 
-### POST
-> POST
-
+## Create New Historical Data
 ```shell
 # Request all historica data for the current user
 curl -X POST "https://api.sustainability.oregonstate.edu/v2/carbon/data" \
@@ -388,8 +381,7 @@ curl -X POST "https://api.sustainability.oregonstate.edu/v2/carbon/data" \
 ```
 This method stores a results object as a historical data point.
 
-### DELETE
-> DELETE
+## Delete Historical Data
 
 ```shell
 # Delete the specified historical data point
