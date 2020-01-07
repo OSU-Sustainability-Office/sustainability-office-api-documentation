@@ -196,12 +196,12 @@
   color: #f92672;
 }
     </style>
-    <link href="stylesheets/screen-ab64c0d8.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-15cf0eab.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-bccf8c07.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-c5541673.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;json&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -211,7 +211,8 @@
     <div class="toc-wrapper">
       <img src="images/logo-207bb4ef.png" class="logo" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
+              <a href="#" data-language-name="shell">cURL Request</a>
+              <a href="#" data-language-name="json">Response</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -236,10 +237,22 @@
             <a href="#carbon-calculator" class="toc-h1 toc-link" data-title="Carbon Calculator">Carbon Calculator</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#category" class="toc-h2 toc-link" data-title="/category">/category</a>
+                    <a href="#get-categories" class="toc-h2 toc-link" data-title="Get Categories">Get Categories</a>
                   </li>
                   <li>
-                    <a href="#question" class="toc-h2 toc-link" data-title="/question">/question</a>
+                    <a href="#create-categories" class="toc-h2 toc-link" data-title="Create Categories">Create Categories</a>
+                  </li>
+                  <li>
+                    <a href="#delete-categories" class="toc-h2 toc-link" data-title="Delete Categories">Delete Categories</a>
+                  </li>
+                  <li>
+                    <a href="#get-questions" class="toc-h2 toc-link" data-title="Get Questions">Get Questions</a>
+                  </li>
+                  <li>
+                    <a href="#create-questions" class="toc-h2 toc-link" data-title="Create Questions">Create Questions</a>
+                  </li>
+                  <li>
+                    <a href="#delete-questions" class="toc-h2 toc-link" data-title="Delete Questions">Delete Questions</a>
                   </li>
                   <li>
                     <a href="#data" class="toc-h2 toc-link" data-title="/data">/data</a>
@@ -260,7 +273,9 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
+        <h1 id='introduction'>Introduction</h1><pre class="highlight shell tab-shell"><code><span class="c"># API Base URL</span>
+https://api.sustainability.oregonstate.edu/v2/
+</code></pre>
 <p>This document aims to provide you with public access to the APIs built by the OSU Sustainability Office. These APIs support our:</p>
 
 <ul>
@@ -268,9 +283,7 @@
 <li><a href="https://myco2.sustainability.oregonstate.edu/">Carbon Calculator</a></li>
 <li>Sustainability Map (Coming Soon!)</li>
 </ul>
-<pre class="highlight shell tab-shell"><code><span class="c"># API Base URL</span>
-curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/"</span>
-</code></pre><h1 id='authentication'>Authentication</h1>
+<h1 id='authentication'>Authentication</h1>
 <p>The authentication API allows our applications to authenticate users with CAS, using their ONID credentials. For more information about CAS at Oregon State University, refer to <a href="http://onid.oregonstate.edu/docs/technical/cas.shtml">this document</a>.</p>
 <h2 id='login'>Login</h2>
 <p>Users must navigate to <a href="https://api.sustainability.oregonstate.edu/v2/auth/login">https://api.sustainability.oregonstate.edu/v2/auth/login</a> to begin the authentication process. Optionally, a return URI can be specified: <a href="https://api.sustainability.oregonstate.edu/v2/auth/login?returnURI=https://myco2.sustainability.oregonstate.edu/#/">https://api.sustainability.oregonstate.edu/v2/auth/login?returnURI=https://myco2.sustainability.oregonstate.edu/#/</a>. The return URI parameter specifies a destination for the user once they have authenticated with ONID.</p>
@@ -289,28 +302,21 @@ curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/"</span>
 <p>Simply direct the user&#39;s browser to <a href="https://api.sustainability.oregonstate.edu/v2/auth/logout">https://api.sustainability.oregonstate.edu/v2/auth/logout</a>. They will be securely logged out of ONID.</p>
 <h1 id='carbon-calculator'>Carbon Calculator</h1>
 <p>The base URL for the Carbon Calculator&#39;s API is <a href="https://api.sustainability.oregonstate.edu/v2/carbon">https://api.sustainability.oregonstate.edu/v2/carbon</a>. The following routes can be accessed by appending the endpoint to the base URL (ie: <a href="https://https//api.sustainability.oregonstate.edu/v2/carbon/category...">https://https://api.sustainability.oregonstate.edu/v2/carbon/category...</a></p>
-<h2 id='category'>/category</h2>
-<p>This endpoint is used for performing CRUD operations on one or more categories.</p>
-<h3 id='get'>GET</h3>
-<blockquote>
-<p>GET</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># Request all categories</span>
+<h2 id='get-categories'>Get Categories</h2><pre class="highlight shell tab-shell"><code><span class="c"># Request all categories</span>
 curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/category"</span>
 </code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Request a specific category</span>
 curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/category?ID=1"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
-<span class="p">{</span>
-  <span class="s2">"categories"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"ffffff"</span><span class="p">,</span>
-      <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Introduction"</span><span class="p">,</span>
-      <span class="s2">"IgnoreResults"</span><span class="p">:</span> <span class="kc">true</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
-</code></pre>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"categories"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ffffff"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Introduction"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"IgnoreResults"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This method is used to retrieve one or more categories.</p>
 
 <table><thead>
@@ -324,11 +330,7 @@ curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/cate
 <td>The ID of the requested category. When this is specified, only one category is returned.</td>
 </tr>
 </tbody></table>
-<h3 id='post'>POST</h3>
-<blockquote>
-<p>POST</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># Create a new category</span>
+<h2 id='create-categories'>Create Categories</h2><pre class="highlight shell tab-shell"><code><span class="c"># Create a new category</span>
 curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/category"</span> <span class="se">\</span>
 -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
 -H <span class="s2">"Cookie: token=(put authentication token here)"</span> -d <span class="se">\</span>
@@ -337,18 +339,17 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
   "title": "New Category",
   "ignoreResults": false
 }'</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
-<span class="p">{</span>
-  <span class="s2">"categories"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
-      <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"ffffff"</span><span class="p">,</span>
-      <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"New Category"</span><span class="p">,</span>
-      <span class="s2">"ignoreResults"</span><span class="p">:</span> <span class="kc">false</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
-</code></pre>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"categories"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ffffff"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New Category"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"ignoreResults"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This method is used to create a new category and is reserved for administrators. Administrators must include an authentication token with each request.</p>
 
 <table><thead>
@@ -370,19 +371,14 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 <td>A boolean value that is <code>true</code> if this category should not be included in the results calculations. <code>false</code> otherwise.</td>
 </tr>
 </tbody></table>
-<h3 id='delete'>DELETE</h3>
-<blockquote>
-<p>DELETE</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># Delete a category by ID</span>
+<h2 id='delete-categories'>Delete Categories</h2><pre class="highlight shell tab-shell"><code><span class="c"># Delete a category by ID</span>
 curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/category?ID=1"</span> <span class="se">\</span>
 -H <span class="s2">"Cookie: token=(put authentication token here)"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
-<span class="p">{</span>
-  <span class="s2">"status"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-  <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Category deleted."</span>
-<span class="p">}</span>
-</code></pre>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Category deleted."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This method is used to delete a category and is reserved for administrators. Administrators must include an authentication token with each request.</p>
 
 <table><thead>
@@ -396,42 +392,37 @@ curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/c
 <td>The ID of the category to be deleted.</td>
 </tr>
 </tbody></table>
-<h2 id='question'>/question</h2>
+<h2 id='get-questions'>Get Questions</h2>
 <p>This endpoint is used for performing CRUD operations on one or more questions.</p>
-<h3 id='get-2'>GET</h3>
-<blockquote>
-<p>GET</p>
-</blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># Request all questions for a particular category</span>
 curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question?categoryID=1"</span>
 </code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Request a specific question</span>
 curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question?ID=1"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
-<span class="p">{</span>
-  <span class="s2">"questions"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="s2">"questionText"</span><span class="p">:</span> <span class="s2">"How many miles do you drive each day?"</span><span class="p">,</span>
-      <span class="s2">"metaData"</span><span class="p">:</span> <span class="s2">"This question is not real."</span><span class="p">,</span>
-      <span class="s2">"input"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Numerical"</span><span class="p">,</span>
-        <span class="s2">"hint"</span><span class="p">:</span> <span class="s2">"Try answering the question."</span><span class="p">,</span>
-        <span class="s2">"value"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s2">"unit"</span><span class="p">:</span> <span class="p">{</span>
-          <span class="s2">"prefix"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-          <span class="s2">"chars"</span><span class="p">:</span> <span class="s2">"mi"</span>
-        <span class="p">}</span>
-      <span class="p">},</span>
-      <span class="s2">"trigger"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"triggerValue"</span><span class="p">:</span> <span class="s2">"someValue"</span><span class="p">,</span>
-        <span class="s2">"parentQuestion"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">"visible"</span><span class="p">:</span> <span class="kc">false</span>
-      <span class="p">},</span>
-      <span class="s2">"categoryID"</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
-</code></pre>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"questions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"ID"</span><span class="p">:</span><span class="w"> </span><span class="mi">999</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"questionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"How many miles do you drive each day?"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"orderIndex"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"metaData"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This question is not real."</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"input"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"numerical"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">this</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">initial</span><span class="w"> </span><span class="err">value</span><span class="w"> </span><span class="err">that</span><span class="w"> </span><span class="err">appears</span><span class="w"> </span><span class="err">before</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">modifies</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">input</span><span class="w"> </span><span class="err">box</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">calculator.</span><span class="w">
+        </span><span class="s2">"coef"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.533</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mi"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"isPrefix"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"trigger"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"triggerValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gasoline"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"parentQuestion"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"visible"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"categoryID"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This method is used to retrieve one or more questions.</p>
 
 <table><thead>
@@ -453,59 +444,52 @@ curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/ques
 <aside class="notice">
 You must use either ID or categoryID. They are mutually exclusive, and one is always required.
 </aside>
-<h3 id='post-2'>POST</h3>
-<blockquote>
-<p>POST</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># Create a new question</span>
+<h2 id='create-questions'>Create Questions</h2><pre class="highlight shell tab-shell"><code><span class="c"># Create a new question</span>
 curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question"</span> <span class="se">\</span>
 -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
 -H <span class="s2">"Cookie: token=(put authentication token here)"</span> -d <span class="se">\</span>
 <span class="s1">'{
   "questionText": "How many miles do you drive each day?",
+  "orderIndex": 3,
   "metaData": "This question is not real.",
   "input": {
-    "type": "Numerical",
-    "hint": "Try answering the question.",
-    "value": 0,
-    "unit": {
-      "prefix": false,
-      "chars": "mi"
-    }
+    "type": "numerical",
+    "value": 0, // this is the initial value that appears before the user modifies the input box on the calculator.
+    "coef": 0.533,
+    "unit": "mi",
+    "isPrefix": false
   },
   "trigger": {
-    "triggerValue": "someValue",
-    "parentQuestion": 3,
+    "triggerValue": "Gasoline",
+    "parentQuestion": 2,
     "visible": false
   },
   "categoryID": 0
 }'</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
-<span class="p">{</span>
-  <span class="s2">"questions"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">999</span><span class="p">,</span>
-      <span class="s2">"questionText"</span><span class="p">:</span> <span class="s2">"How many miles do you drive each day?"</span><span class="p">,</span>
-      <span class="s2">"metaData"</span><span class="p">:</span> <span class="s2">"This question is not real."</span><span class="p">,</span>
-      <span class="s2">"input"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Numerical"</span><span class="p">,</span>
-        <span class="s2">"hint"</span><span class="p">:</span> <span class="s2">"Try answering the question."</span><span class="p">,</span>
-        <span class="s2">"value"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s2">"unit"</span><span class="p">:</span> <span class="p">{</span>
-          <span class="s2">"prefix"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-          <span class="s2">"chars"</span><span class="p">:</span> <span class="s2">"mi"</span>
-        <span class="p">}</span>
-      <span class="p">},</span>
-      <span class="s2">"trigger"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"triggerValue"</span><span class="p">:</span> <span class="s2">"someValue"</span><span class="p">,</span>
-        <span class="s2">"parentQuestion"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">"visible"</span><span class="p">:</span> <span class="kc">false</span>
-      <span class="p">},</span>
-      <span class="s2">"categoryID"</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
-</code></pre>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"questions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"ID"</span><span class="p">:</span><span class="w"> </span><span class="mi">999</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"questionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"How many miles do you drive each day?"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"orderIndex"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"metaData"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This question is not real."</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"input"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"numerical"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">this</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">initial</span><span class="w"> </span><span class="err">value</span><span class="w"> </span><span class="err">that</span><span class="w"> </span><span class="err">appears</span><span class="w"> </span><span class="err">before</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">modifies</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">input</span><span class="w"> </span><span class="err">box</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">calculator.</span><span class="w">
+        </span><span class="s2">"coef"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.533</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mi"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"isPrefix"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"trigger"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"triggerValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gasoline"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"parentQuestion"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"visible"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"categoryID"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This method is used to delete a question and is reserved for administrators. Administrators must include an authentication token with each request.</p>
 
 <table><thead>
@@ -515,31 +499,112 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 </tr>
 </thead><tbody>
 <tr>
-<td>color</td>
-<td>The six-character hexidecimal string corresponding to the new question&#39;s color.</td>
+<td>questionText</td>
+<td>This is the string containing text for the question, such as &quot;How old are you?&quot;.</td>
 </tr>
 <tr>
-<td>title</td>
-<td>The question&#39;s title.</td>
+<td>orderIndex</td>
+<td>Each question is displayed in a particular order, beginning with 0. If -1 is supplied, this will be appended to the end of the current list of questions for the specified category. Otherwise, this question will be placed at the specified index. If a question already exists at the specified index, the new question will be inserted into the list at the index.</td>
 </tr>
 <tr>
-<td>ignoreResults</td>
-<td>A boolean value that is <code>true</code> if this question should not be included in the results calculations. <code>false</code> otherwise.</td>
+<td>metaData</td>
+<td>This is displayed when the user hovers the mouse over a tooltip. This contains information regarding any sources used for computing the CO2e coefficient for this question, or any other pertinent information.</td>
+</tr>
+<tr>
+<td>input (optional)</td>
+<td>An object describing the type of input that should be rendered for this question.</td>
+</tr>
+<tr>
+<td>trigger (optional)</td>
+<td>An object describing whether or not this question&#39;s visibility is triggered by the answer to another question. For example, the question: &quot;How many miles do you drive?&quot; may be triggered by the response &quot;Yes&quot; to the question: &quot;Do you drive a car?&quot;</td>
+</tr>
+<tr>
+<td>categoryID</td>
+<td>The ID of the category this question will reside within. To look up category IDs, refer to the /category endpoint.</td>
 </tr>
 </tbody></table>
-<h3 id='delete-2'>DELETE</h3>
-<blockquote>
-<p>DELETE</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># Delete a question by ID</span>
+<h3 id='input-objects'>Input Objects</h3>
+<p>A question can employ one of four kinds of inputs:</p>
+
+<ol>
+<li>No input. This is used when a &quot;question&quot; is really just a paragraph. In this case, assign the input key a null value.
+<pre class="center-column">
+{
+&quot;questionText&quot;: &quot;Welcome to the calculator.&quot;,
+&quot;orderIndex&quot;: -1,
+&quot;metaData&quot;: &quot;This question is actually a paragraph.&quot;,
+&quot;input&quot;: null,
+&quot;trigger&quot;: null,
+&quot;categoryID&quot;: 0
+}
+</pre></li>
+<li>Numerical. This is used when a question computes a carbon footprint using an integer input by the user.
+<pre class="center-column">
+{
+&quot;questionText&quot;: &quot;How many miles do you drive each day?&quot;,
+&quot;orderIndex&quot;: 3,
+&quot;metaData&quot;: &quot;This question is not real.&quot;,
+&quot;input&quot;: {
+  &quot;type&quot;: &quot;numerical&quot;,
+  &quot;value&quot;: 0, // this is the initial value that appears before the user modifies the input box on the calculator.
+  &quot;coef&quot;: 0.533,
+  &quot;unit&quot;: &quot;mi&quot;,
+  &quot;isPrefix&quot;: false
+},
+&quot;trigger&quot;: {
+  &quot;triggerValue&quot;: &quot;Gasoline&quot;,
+  &quot;parentQuestion&quot;: 2,
+  &quot;visible&quot;: false
+},
+&quot;categoryID&quot;: 0
+}
+</pre></li>
+<li>List. This is used when a user must select from one or more predetermined values in a list (or a toggle switch).
+<pre class="center-column">
+{
+&quot;questionText&quot;: &quot;What kind of car do you drive?&quot;,
+&quot;orderIndex&quot;: 2,
+&quot;metaData&quot;: &quot;This question is not real.&quot;,
+&quot;input&quot;: {
+  &quot;type&quot;: &quot;list&quot;,
+  &quot;values&quot;: [&quot;Gasoline&quot;, &quot;Diesel&quot;, &quot;Hybrid&quot;, &quot;Electric&quot;, &quot;Other&quot;],
+  &quot;coefs&quot;: [0.533, 0.421, 0.213, 0.048, 0],
+  &quot;unit&quot;: null,
+  &quot;isPrefix&quot;: null
+},
+&quot;trigger&quot;: null,
+&quot;categoryID&quot;: 0
+}
+</pre></li>
+<li>Table. This is used when a user must input data in a table format.
+<pre class="center-column">
+{
+&quot;questionText&quot;: &quot;From the following list of appliances, electronics, lighting, etc, input how many of each item are in your room and how many hours a day each item is in use or plugged in. If you own an item not listed below please be sure to fill in extra fields: What is the item and wattage? You can find the wattage on the bottom of most appliances. Be sure to multiply by 1000 if the wattage is given in kilowatts.&quot;,
+&quot;orderIndex&quot;: 4,
+&quot;metaData&quot;: &quot;This question is not real.&quot;,
+&quot;input&quot;: {
+  &quot;type&quot;: &quot;table&quot;,
+  &quot;formula&quot;: &quot;C1 * C2 * C3 * 0.214&quot;,
+  &quot;values&quot;: [
+    [&quot;Item&quot;, &quot;Quantity&quot;, &quot;Watts&quot;, &quot;Active Use (Hours/Day)&quot;, &quot;Standby Use&quot;],
+    [&quot;Refrigerator&quot;, 1, 160, 24, 0],
+    [&quot;Microwave&quot;, 1, 1000, 0, 0],
+    ...
+  ]
+},
+&quot;trigger&quot;: null,
+&quot;categoryID&quot;: 0
+}
+</pre></li>
+</ol>
+<h3 id='trigger-objects'>Trigger Objects</h3><h2 id='delete-questions'>Delete Questions</h2><pre class="highlight shell tab-shell"><code><span class="c"># Delete a question by ID</span>
 curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question?ID=1"</span> <span class="se">\</span>
 -H <span class="s2">"Cookie: token=(put authentication token here)"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
-<span class="p">{</span>
-  <span class="s2">"status"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-  <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Question deleted."</span>
-<span class="p">}</span>
-</code></pre>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Question deleted."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This method is used to create a new question and is reserved for administrators. Administrators must include an authentication token with each request.</p>
 
 <table><thead>
@@ -555,32 +620,31 @@ curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/c
 </tbody></table>
 <h2 id='data'>/data</h2>
 <p>This endpoint is used for retrieving and deleting a user&#39;s historical data. The user must be logged in and an authentication token must be included with every request.</p>
-<h3 id='get-3'>GET</h3>
+<h3 id='get'>GET</h3>
 <blockquote>
 <p>GET</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># Request all historica data for the current user</span>
 curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
-<span class="p">{</span>
-  <span class="s2">"data"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s2">"ID"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-      <span class="s2">"created"</span><span class="p">:</span> <span class="s2">"YYYY-MM-DD hh:mm:ss"</span><span class="p">,</span> <span class="c1">// SQL Datetime format, UTC timezone</span>
-      <span class="s2">"totals"</span><span class="p">:[</span>
-        <span class="p">{</span>
-          <span class="s2">"categoryID"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-          <span class="s2">"total"</span><span class="p">:</span> <span class="mf">1234.56</span>
-        <span class="p">},</span>
-        <span class="p">...</span>
-      <span class="p">]</span>
-    <span class="p">},</span>
-    <span class="p">...</span>
-  <span class="p">]</span>
-<span class="p">}</span>
-</code></pre>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"ID"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YYYY-MM-DD hh:mm:ss"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">SQL</span><span class="w"> </span><span class="err">Datetime</span><span class="w"> </span><span class="err">format</span><span class="p">,</span><span class="w"> </span><span class="err">UTC</span><span class="w"> </span><span class="err">timezone</span><span class="w">
+      </span><span class="s2">"totals"</span><span class="p">:[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"categoryID"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mf">1234.56</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This method retrieves all of the historical datapoints for the current user.</p>
-<h3 id='post-3'>POST</h3>
+<h3 id='post'>POST</h3>
 <blockquote>
 <p>POST</p>
 </blockquote>
@@ -597,38 +661,36 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
     ...
   ]
 }'</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
-<span class="p">{</span>
-  <span class="s2">"data"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s2">"ID"</span><span class="p">:</span> <span class="mi">999</span><span class="p">,</span>
-      <span class="s2">"created"</span><span class="p">:</span> <span class="s2">"YYYY-MM-DD hh:mm:ss"</span><span class="p">,</span> <span class="c1">// SQL Datetime format, UTC timezone</span>
-      <span class="s2">"totals"</span><span class="p">:[</span>
-        <span class="p">{</span>
-          <span class="s2">"categoryID"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-          <span class="s2">"total"</span><span class="p">:</span> <span class="mf">1234.56</span>
-        <span class="p">},</span>
-        <span class="p">...</span>
-      <span class="p">]</span>
-    <span class="p">},</span>
-    <span class="p">...</span>
-  <span class="p">]</span>
-<span class="p">}</span>
-</code></pre>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"ID"</span><span class="p">:</span><span class="w"> </span><span class="mi">999</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YYYY-MM-DD hh:mm:ss"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">SQL</span><span class="w"> </span><span class="err">Datetime</span><span class="w"> </span><span class="err">format</span><span class="p">,</span><span class="w"> </span><span class="err">UTC</span><span class="w"> </span><span class="err">timezone</span><span class="w">
+      </span><span class="s2">"totals"</span><span class="p">:[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"categoryID"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mf">1234.56</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This method stores a results object as a historical data point.</p>
-<h3 id='delete-3'>DELETE</h3>
+<h3 id='delete'>DELETE</h3>
 <blockquote>
 <p>DELETE</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># Delete the specified historical data point</span>
 curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data?ID=1"</span> <span class="se">\</span>
 -H <span class="s2">"Cookie: token=(put authentication token here)"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Response</span>
-<span class="p">{</span>
-  <span class="s2">"status"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-  <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Data point deleted."</span>
-<span class="p">}</span>
-</code></pre>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data point deleted."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This method deletes the specified historical data point.</p>
 
 <table><thead>
@@ -700,7 +762,8 @@ curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/c
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
+                <a href="#" data-language-name="shell">cURL Request</a>
+                <a href="#" data-language-name="json">Response</a>
           </div>
       </div>
     </div>
