@@ -295,7 +295,39 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 }
 </pre></li>
 </ol>
-<h3 id='trigger-objects'>Trigger Objects</h3><h2 id='delete-questions'>Delete Questions</h2><pre class="highlight shell tab-shell"><code><span class="c"># Delete a question by ID</span>
+<h3 id='trigger-objects'>Trigger Objects</h3>
+<p>A question&#39;s visibility on the frontend can be triggered by another question. The user may respond to Question A favorably, &quot;triggering&quot; Question B&#39;s visibility. If this functionality is not desired, the trigger object can be null.</p>
+
+<p>The object is constructed like this:</p>
+
+<pre class="center-column">
+"trigger": {
+  "triggerValue": "Gasoline",
+  "parentQuestion": 2,
+  "visible": false
+}
+</pre>
+
+<table><thead>
+<tr>
+<th>JSON Parameters</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>triggerValue</td>
+<td>If the user&#39;s response to the parentQuestion is equivalent to the triggerValue, this question&#39;s visibility will be toggled.</td>
+</tr>
+<tr>
+<td>parentQuestion</td>
+<td>This is the orderIndex of the parent question within the current category.</td>
+</tr>
+<tr>
+<td>visible</td>
+<td>If true, the question will initially be visible. If false, the question will not initially be visible.</td>
+</tr>
+</tbody></table>
+<h2 id='delete-questions'>Delete Questions</h2><pre class="highlight shell tab-shell"><code><span class="c"># Delete a question by ID</span>
 curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/question?ID=1"</span> <span class="se">\</span>
 -H <span class="s2">"Cookie: token=(put authentication token here)"</span>
 </code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
