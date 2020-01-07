@@ -279,6 +279,23 @@ A question can employ one of four kinds of inputs:
 </pre>
 
 ### Trigger Objects
+A question's visibility on the frontend can be triggered by another question. The user may respond to Question A favorably, "triggering" Question B's visibility. If this functionality is not desired, the trigger object can be null.
+
+The object is constructed like this:
+
+<pre class="center-column">
+"trigger": {
+  "triggerValue": "Gasoline",
+  "parentQuestion": 2,
+  "visible": false
+}
+</pre>
+
+JSON Parameters | Description
+---------- | -------
+triggerValue | If the user's response to the parentQuestion is equivalent to the triggerValue, this question's visibility will be toggled.
+parentQuestion | This is the orderIndex of the parent question within the current category.
+visible | If true, the question will initially be visible. If false, the question will not initially be visible.
 
 ## Delete Questions
 
