@@ -255,7 +255,13 @@
                     <a href="#delete-questions" class="toc-h2 toc-link" data-title="Delete Questions">Delete Questions</a>
                   </li>
                   <li>
-                    <a href="#data" class="toc-h2 toc-link" data-title="/data">/data</a>
+                    <a href="#get-historical-data" class="toc-h2 toc-link" data-title="Get Historical Data">Get Historical Data</a>
+                  </li>
+                  <li>
+                    <a href="#create-new-historical-data" class="toc-h2 toc-link" data-title="Create New Historical Data">Create New Historical Data</a>
+                  </li>
+                  <li>
+                    <a href="#delete-historical-data" class="toc-h2 toc-link" data-title="Delete Historical Data">Delete Historical Data</a>
                   </li>
                   <li>
                     <a href="#error-codes" class="toc-h2 toc-link" data-title="Error Codes">Error Codes</a>
@@ -530,70 +536,70 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 <li>No input. This is used when a &quot;question&quot; is really just a paragraph. In this case, assign the input key a null value.
 <pre class="center-column">
 {
-&quot;questionText&quot;: &quot;Welcome to the calculator.&quot;,
-&quot;orderIndex&quot;: -1,
-&quot;metaData&quot;: &quot;This question is actually a paragraph.&quot;,
-&quot;input&quot;: null,
-&quot;trigger&quot;: null,
-&quot;categoryID&quot;: 0
+  &quot;questionText&quot;: &quot;Welcome to the calculator.&quot;,
+  &quot;orderIndex&quot;: -1,
+  &quot;metaData&quot;: &quot;This question is actually a paragraph.&quot;,
+  &quot;input&quot;: null,
+  &quot;trigger&quot;: null,
+  &quot;categoryID&quot;: 0
 }
 </pre></li>
 <li>Numerical. This is used when a question computes a carbon footprint using an integer input by the user.
 <pre class="center-column">
 {
-&quot;questionText&quot;: &quot;How many miles do you drive each day?&quot;,
-&quot;orderIndex&quot;: 3,
-&quot;metaData&quot;: &quot;This question is not real.&quot;,
-&quot;input&quot;: {
-  &quot;type&quot;: &quot;numerical&quot;,
-  &quot;value&quot;: 0, // this is the initial value that appears before the user modifies the input box on the calculator.
-  &quot;coef&quot;: 0.533,
-  &quot;unit&quot;: &quot;mi&quot;,
-  &quot;isPrefix&quot;: false
-},
-&quot;trigger&quot;: {
-  &quot;triggerValue&quot;: &quot;Gasoline&quot;,
-  &quot;parentQuestion&quot;: 2,
-  &quot;visible&quot;: false
-},
-&quot;categoryID&quot;: 0
+  &quot;questionText&quot;: &quot;How many miles do you drive each day?&quot;,
+  &quot;orderIndex&quot;: 3,
+  &quot;metaData&quot;: &quot;This question is not real.&quot;,
+  &quot;input&quot;: {
+    &quot;type&quot;: &quot;numerical&quot;,
+    &quot;value&quot;: 0, // this is the initial value that appears before the user modifies the input box on the calculator.
+    &quot;coef&quot;: 0.533,
+    &quot;unit&quot;: &quot;mi&quot;,
+    &quot;isPrefix&quot;: false
+  },
+  &quot;trigger&quot;: {
+    &quot;triggerValue&quot;: &quot;Gasoline&quot;,
+    &quot;parentQuestion&quot;: 2,
+    &quot;visible&quot;: false
+  },
+  &quot;categoryID&quot;: 0
 }
 </pre></li>
 <li>List. This is used when a user must select from one or more predetermined values in a list (or a toggle switch).
 <pre class="center-column">
 {
-&quot;questionText&quot;: &quot;What kind of car do you drive?&quot;,
-&quot;orderIndex&quot;: 2,
-&quot;metaData&quot;: &quot;This question is not real.&quot;,
-&quot;input&quot;: {
-  &quot;type&quot;: &quot;list&quot;,
-  &quot;values&quot;: [&quot;Gasoline&quot;, &quot;Diesel&quot;, &quot;Hybrid&quot;, &quot;Electric&quot;, &quot;Other&quot;],
-  &quot;coefs&quot;: [0.533, 0.421, 0.213, 0.048, 0],
-  &quot;unit&quot;: null,
-  &quot;isPrefix&quot;: null
-},
-&quot;trigger&quot;: null,
-&quot;categoryID&quot;: 0
+  &quot;questionText&quot;: &quot;What kind of car do you drive?&quot;,
+  &quot;orderIndex&quot;: 2,
+  &quot;metaData&quot;: &quot;This question is not real.&quot;,
+  &quot;input&quot;: {
+    &quot;type&quot;: &quot;list&quot;,
+    &quot;values&quot;: [&quot;Gasoline&quot;, &quot;Diesel&quot;, &quot;Hybrid&quot;, &quot;Electric&quot;, &quot;Other&quot;],
+    &quot;coefs&quot;: [0.533, 0.421, 0.213, 0.048, 0],
+    &quot;unit&quot;: null,
+    &quot;isPrefix&quot;: null
+  },
+  &quot;trigger&quot;: null,
+  &quot;categoryID&quot;: 0
 }
 </pre></li>
 <li>Table. This is used when a user must input data in a table format.
 <pre class="center-column">
 {
-&quot;questionText&quot;: &quot;From the following list of appliances, electronics, lighting, etc, input how many of each item are in your room and how many hours a day each item is in use or plugged in. If you own an item not listed below please be sure to fill in extra fields: What is the item and wattage? You can find the wattage on the bottom of most appliances. Be sure to multiply by 1000 if the wattage is given in kilowatts.&quot;,
-&quot;orderIndex&quot;: 4,
-&quot;metaData&quot;: &quot;This question is not real.&quot;,
-&quot;input&quot;: {
-  &quot;type&quot;: &quot;table&quot;,
-  &quot;formula&quot;: &quot;C1 * C2 * C3 * 0.214&quot;,
-  &quot;values&quot;: [
-    [&quot;Item&quot;, &quot;Quantity&quot;, &quot;Watts&quot;, &quot;Active Use (Hours/Day)&quot;, &quot;Standby Use&quot;],
-    [&quot;Refrigerator&quot;, 1, 160, 24, 0],
-    [&quot;Microwave&quot;, 1, 1000, 0, 0],
-    ...
-  ]
-},
-&quot;trigger&quot;: null,
-&quot;categoryID&quot;: 0
+  &quot;questionText&quot;: &quot;From the following list of appliances, electronics, lighting, etc, input how many of each item are in your room and how many hours a day each item is in use or plugged in. If you own an item not listed below please be sure to fill in extra fields: What is the item and wattage? You can find the wattage on the bottom of most appliances. Be sure to multiply by 1000 if the wattage is given in kilowatts.&quot;,
+  &quot;orderIndex&quot;: 4,
+  &quot;metaData&quot;: &quot;This question is not real.&quot;,
+  &quot;input&quot;: {
+    &quot;type&quot;: &quot;table&quot;,
+    &quot;formula&quot;: &quot;C1 * C2 * C3 * 0.214&quot;,
+    &quot;values&quot;: [
+      [&quot;Item&quot;, &quot;Quantity&quot;, &quot;Watts&quot;, &quot;Active Use (Hours/Day)&quot;, &quot;Standby Use&quot;],
+      [&quot;Refrigerator&quot;, 1, 160, 24, 0],
+      [&quot;Microwave&quot;, 1, 1000, 0, 0],
+      ...
+    ]
+  },
+  &quot;trigger&quot;: null,
+  &quot;categoryID&quot;: 0
 }
 </pre></li>
 </ol>
@@ -650,13 +656,7 @@ curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/c
 <td>The ID of the question to be deleted.</td>
 </tr>
 </tbody></table>
-<h2 id='data'>/data</h2>
-<p>This endpoint is used for retrieving and deleting a user&#39;s historical data. The user must be logged in and an authentication token must be included with every request.</p>
-<h3 id='get'>GET</h3>
-<blockquote>
-<p>GET</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># Request all historica data for the current user</span>
+<h2 id='get-historical-data'>Get Historical Data</h2><pre class="highlight shell tab-shell"><code><span class="c"># Request all historica data for the current user</span>
 curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data"</span>
 </code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -676,11 +676,7 @@ curl <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This method retrieves all of the historical datapoints for the current user.</p>
-<h3 id='post'>POST</h3>
-<blockquote>
-<p>POST</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># Request all historica data for the current user</span>
+<h2 id='create-new-historical-data'>Create New Historical Data</h2><pre class="highlight shell tab-shell"><code><span class="c"># Request all historica data for the current user</span>
 curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data"</span> <span class="se">\</span>
 -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
 -H <span class="s2">"Cookie: token=(put authentication token here)"</span> -d <span class="se">\</span>
@@ -711,11 +707,7 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This method stores a results object as a historical data point.</p>
-<h3 id='delete'>DELETE</h3>
-<blockquote>
-<p>DELETE</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># Delete the specified historical data point</span>
+<h2 id='delete-historical-data'>Delete Historical Data</h2><pre class="highlight shell tab-shell"><code><span class="c"># Delete the specified historical data point</span>
 curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data?ID=1"</span> <span class="se">\</span>
 -H <span class="s2">"Cookie: token=(put authentication token here)"</span>
 </code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
