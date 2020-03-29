@@ -198,6 +198,7 @@ This method is used to delete a question and is reserved for administrators. Adm
 
 JSON Parameters | Description
 ---------- | -------
+title | This string contains the title of a paragraph-type question.
 questionText | This is the string containing text for the question, such as "How old are you?".
 orderIndex | Each question is displayed in a particular order, beginning with 0. If -1 is supplied, this will be appended to the end of the current list of questions for the specified category. Otherwise, this question will be placed at the specified index. If a question already exists at the specified index, the new question will be inserted into the list at the index.
 metaData | This is displayed when the user hovers the mouse over a tooltip. This contains information regarding any sources used for computing the CO2e coefficient for this question, or any other pertinent information.
@@ -211,6 +212,7 @@ A question can employ one of four kinds of inputs:
 1. No input. This is used when a "question" is really just a paragraph. In this case, assign the input key a null value.
 <pre class="center-column">
     {
+      "title": "Introduction",
       "questionText": "Welcome to the calculator.",
       "orderIndex": -1,
       "metaData": "This question is actually a paragraph.",
@@ -225,12 +227,12 @@ A question can employ one of four kinds of inputs:
       "questionText": "How many miles do you drive each day?",
       "orderIndex": 3,
       "metaData": "This question is not real.",
+      "unit": "mi",
+      "isPrefix": false,
       "input": {
         "type": "numerical",
         "value": 0, // this is the initial value that appears before the user modifies the input box on the calculator.
-        "coef": 0.533,
-        "unit": "mi",
-        "isPrefix": false
+        "coef": 0.533
       },
       "trigger": {
         "triggerValue": "Gasoline",
@@ -249,9 +251,7 @@ A question can employ one of four kinds of inputs:
       "input": {
         "type": "list",
         "values": ["Gasoline", "Diesel", "Hybrid", "Electric", "Other"],
-        "coefs": [0.533, 0.421, 0.213, 0.048, 0],
-        "unit": null,
-        "isPrefix": null
+        "coefs": [0.533, 0.421, 0.213, 0.048, 0]
       },
       "trigger": null,
       "categoryID": 0
@@ -401,6 +401,20 @@ This method deletes the specified historical data point.
 URL Parameters | Description
 ---------- | -------
 ID | The ID of the historical data point to be deleted. Each data point unique consists of a set of totals for each category and a timestamp.
+
+```json
+{
+  "status": 200,
+  "message": "Data point deleted."
+}
+```
+
+This method deletes the specified historical data point.
+
+URL Parameters | Description
+---------- | -------
+ID | The ID of the historical data point to be deleted. Each data point unique consists of a set of totals for each category and a timestamp.
+
 
 ## Error Codes
 
