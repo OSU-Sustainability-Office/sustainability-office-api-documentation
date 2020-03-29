@@ -197,6 +197,10 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 </tr>
 </thead><tbody>
 <tr>
+<td>title</td>
+<td>This string contains the title of a paragraph-type question.</td>
+</tr>
+<tr>
 <td>questionText</td>
 <td>This is the string containing text for the question, such as &quot;How old are you?&quot;.</td>
 </tr>
@@ -228,6 +232,7 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 <li>No input. This is used when a &quot;question&quot; is really just a paragraph. In this case, assign the input key a null value.
 <pre class="center-column">
 {
+  &quot;title&quot;: &quot;Introduction&quot;,
   &quot;questionText&quot;: &quot;Welcome to the calculator.&quot;,
   &quot;orderIndex&quot;: -1,
   &quot;metaData&quot;: &quot;This question is actually a paragraph.&quot;,
@@ -242,12 +247,12 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
   &quot;questionText&quot;: &quot;How many miles do you drive each day?&quot;,
   &quot;orderIndex&quot;: 3,
   &quot;metaData&quot;: &quot;This question is not real.&quot;,
+  &quot;unit&quot;: &quot;mi&quot;,
+  &quot;isPrefix&quot;: false,
   &quot;input&quot;: {
     &quot;type&quot;: &quot;numerical&quot;,
     &quot;value&quot;: 0, // this is the initial value that appears before the user modifies the input box on the calculator.
-    &quot;coef&quot;: 0.533,
-    &quot;unit&quot;: &quot;mi&quot;,
-    &quot;isPrefix&quot;: false
+    &quot;coef&quot;: 0.533
   },
   &quot;trigger&quot;: {
     &quot;triggerValue&quot;: &quot;Gasoline&quot;,
@@ -266,9 +271,7 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
   &quot;input&quot;: {
     &quot;type&quot;: &quot;list&quot;,
     &quot;values&quot;: [&quot;Gasoline&quot;, &quot;Diesel&quot;, &quot;Hybrid&quot;, &quot;Electric&quot;, &quot;Other&quot;],
-    &quot;coefs&quot;: [0.533, 0.421, 0.213, 0.048, 0],
-    &quot;unit&quot;: null,
-    &quot;isPrefix&quot;: null
+    &quot;coefs&quot;: [0.533, 0.421, 0.213, 0.048, 0]
   },
   &quot;trigger&quot;: null,
   &quot;categoryID&quot;: 0
@@ -403,6 +406,24 @@ curl -X POST <span class="s2">"https://api.sustainability.oregonstate.edu/v2/car
 curl -X DELETE <span class="s2">"https://api.sustainability.oregonstate.edu/v2/carbon/data?ID=1"</span> <span class="se">\</span>
 -H <span class="s2">"Cookie: token=(put authentication token here)"</span>
 </code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data point deleted."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This method deletes the specified historical data point.</p>
+
+<table><thead>
+<tr>
+<th>URL Parameters</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>The ID of the historical data point to be deleted. Each data point unique consists of a set of totals for each category and a timestamp.</td>
+</tr>
+</tbody></table>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data point deleted."</span><span class="w">
 </span><span class="p">}</span><span class="w">
